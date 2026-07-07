@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resturang_app/models/meal.dart';
+import 'package:resturang_app/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
@@ -7,9 +8,21 @@ class MealItem extends StatelessWidget {
 
   final Meal meal;
 
+  String get complexityText {
+    return meal.complexity.name[0].toUpperCase() + meal.complexity.name.substring(1);
+  }
+
+  String get affordabilityText {
+    return meal.affordability.name[0].toUpperCase() + meal.affordability.name.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
+      clipBehavior: Clip.hardEdge,
+      elevation: 2,
+      margin: EdgeInsets.all(8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         onTap: () {},
         child: Stack(
@@ -17,6 +30,8 @@ class MealItem extends StatelessWidget {
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
               image: NetworkImage(meal.imageUrl),
+              fit: BoxFit.cover,
+              width: double.infinity,
             ),
             Positioned(
               bottom: 0,
@@ -42,7 +57,16 @@ class MealItem extends StatelessWidget {
                     SizedBox(
                       height: 12,
                     ),
-                    Row(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MealItemTrait(icon: Icons.schedule, label: '${meal.duration} minuter'),
+                        SizedBox(width: 12),
+                        MealItemTrait(icon: Icons.work, label: complexityText),
+                        SizedBox(width: 12),
+                        MealItemTrait(icon: Icons.money, label: affordabilityText),
+                      ],
+                    ),
                   ],
                 ),
               ),

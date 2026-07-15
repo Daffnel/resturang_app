@@ -26,7 +26,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: TabsScreen(), //MealsScreen(title: 'Some category', meals: dummyMeals),
+      home: TabsScreen(), //Bottom navigation screen
     );
   }
 }

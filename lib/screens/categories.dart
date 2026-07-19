@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:resturang_app/data/dummy_data.dart';
-import 'package:resturang_app/models/category.dart';
 import 'package:resturang_app/screens/meals.dart';
+import 'package:resturang_app/data/dummy_data.dart';
+import 'package:resturang_app/models/meal.dart';
 import 'package:resturang_app/widgets/category_grid_item.dart';
 
+import 'package:resturang_app/models/category.dart';
+
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key});
+  const CategoriesScreen({
+    super.key,
+    required this.onToggleFavorite,
+    required this.availableMeals,
+  });
+
+  final void Function(Meal meal) onToggleFavorite;
+  final List<Meal> availableMeals;
 
   void _selectCategory(BuildContext context, Category category) {
-    final filterdMeals = dummyMeals
-        .where(
-          (meal) => meal.categories.contains(category.id),
-        )
+    final filteredMeals = availableMeals
+        .where((meal) => meal.categories.contains(category.id))
         .toList();
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => MealsScreen(title: category.title, meals: filterdMeals),
+        builder: (ctx) => MealsScreen(
+          title: category.title,
+          meals: filteredMeals,
+          onToogleFavorites: onToggleFavorite,
+        ),
       ),
-    );
+    ); // Navigator.push(context, route)
   }
 
   @override
@@ -32,15 +43,14 @@ class CategoriesScreen extends StatelessWidget {
         mainAxisSpacing: 20,
       ),
       children: [
-        // for (final category in availableCategories) CategoryGridItem(category: category),
-        ...availableCategories.map(
-          (item) => CategoryGridItem(
-            category: item,
+        // availableCategories.map((category) => CategoryGridItem(category: category)).toList()
+        for (final category in availableCategories)
+          CategoryGridItem(
+            category: category,
             onSelectCategory: () {
-              _selectCategory(context, item);
+              _selectCategory(context, category);
             },
           ),
-        ),
       ],
     );
   }

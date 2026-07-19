@@ -5,14 +5,15 @@ import 'package:resturang_app/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({required this.meal, super.key});
+  const MealItem({required this.meal, required this.onToogleFavorites, super.key});
 
   final Meal meal;
+  final void Function(Meal meal) onToogleFavorites;
 
   void _selectedMeal(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => MealsDetailsScreen(meal: meal),
+        builder: (ctx) => MealsDetailsScreen(meal: meal, onToogleFavorites: onToogleFavorites),
       ),
     );
   }

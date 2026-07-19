@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resturang_app/data/dummy_data.dart';
 import 'package:resturang_app/models/meal.dart';
 import 'package:resturang_app/screens/categories.dart';
 import 'package:resturang_app/screens/meals.dart';
@@ -32,11 +33,14 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget activePage = const CategoriesScreen();
+    Widget activePage = CategoriesScreen(
+      availableMeals: dummyMeals,
+      onToggleFavorite: _toogleMealFavoriteStatus,
+    );
     var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
-      activePage = const MealsScreen(meals: []);
+      activePage = MealsScreen(onToogleFavorites: _toogleMealFavoriteStatus, meals: []);
       activePageTitle = 'Favorites';
     }
 

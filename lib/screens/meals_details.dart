@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:resturang_app/models/meal.dart';
 
 class MealsDetailsScreen extends StatelessWidget {
-  MealsDetailsScreen({required this.meal, super.key});
+  MealsDetailsScreen({required this.onToogleFavorites, required this.meal, super.key});
 
   final Meal meal;
+  final void Function(Meal meal) onToogleFavorites;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,9 @@ class MealsDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              onToogleFavorites(meal);
+            },
             icon: const Icon(Icons.star),
           ),
         ],

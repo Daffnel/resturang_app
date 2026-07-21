@@ -3,12 +3,10 @@ import 'package:resturang_app/models/meal.dart';
 import 'package:resturang_app/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
-  const MealsScreen({this.title, required this.onToogleFavorites, required this.meals, super.key});
+  const MealsScreen({this.title, required this.meals, super.key});
 
   final String? title;
   final List<Meal> meals;
-
-  final void Function(Meal meal) onToogleFavorites;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +30,7 @@ class MealsScreen extends StatelessWidget {
       content = ListView.builder(
         itemCount: meals.length,
 
-        itemBuilder: (ctx, index) =>
-            MealItem(onToogleFavorites: onToogleFavorites, meal: meals[index]),
+        itemBuilder: (ctx, index) => MealItem(meal: meals[index]),
       );
     }
 

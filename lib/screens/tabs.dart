@@ -75,28 +75,8 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     final activeFilters = ref.watch(filterProvider);
     final favoriteMeal = ref.watch(favoritesMealProvider);
 
-    final availableMeals = meals.where((meal) {
-      if (activeFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
-        return false;
-      }
-
-      if (activeFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
-        return false;
-      }
-
-      if (activeFilters[Filter.vegan]! && !meal.isVegetarian) {
-        return false;
-      }
-
-      if (activeFilters[Filter.vegetarian]! && !meal.isVegetarian) {
-        return false;
-      }
-
-      return true;
-    }).toList();
-
     Widget activePage = CategoriesScreen(
-      availableMeals: availableMeals,
+      availableMeals: ref.watch(filterdMealsProvider),
     );
     var activePageTitle = 'Categories';
 

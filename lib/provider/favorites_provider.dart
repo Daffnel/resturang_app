@@ -4,17 +4,19 @@ import 'package:resturang_app/models/meal.dart';
 class FavoritesMealsNotifier extends StateNotifier<List<Meal>> {
   FavoritesMealsNotifier() : super([]);
 
-  void toogleMealFavoriteStatus(Meal meal) {
+  bool toogleMealFavoriteStatus(Meal meal) {
     final mealIsFavorite = state.contains(meal);
 
     if (mealIsFavorite) {
       state = state.where((item) => item.id != meal.id).toList();
+      return false;
     } else {
       state = [...state, meal];
+      return true;
     }
   }
 }
 
-final favoritesMeal = StateNotifierProvider<FavoritesMealsNotifier, List<Meal>>((ref) {
+final favoritesMealProvider = StateNotifierProvider<FavoritesMealsNotifier, List<Meal>>((ref) {
   return FavoritesMealsNotifier();
 });

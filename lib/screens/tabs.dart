@@ -25,7 +25,6 @@ class TabsScreen extends ConsumerStatefulWidget {
 
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
-  final List<Meal> _favortitesMeal = [];
 
   Map<Filter, bool> _selectedFilters = {
     Filter.glutenFree: false,
@@ -34,15 +33,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     Filter.vegetarian: false,
   };
 
-  void _showInfoMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
-  }
-
-  void _toogleMealFavoriteStatus(Meal meal) {
+  /*   void _toogleMealFavoriteStatus(Meal meal) {
     final isExisting = _favortitesMeal.contains(meal);
 
     if (isExisting) {
@@ -58,7 +49,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
         debugPrint(meal.title);
       });
     }
-  }
+  } */
 
   void _selectPage(int index) {
     setState(() {
@@ -85,7 +76,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     final meals = ref.watch(mealsProvider);
-    final favoriteMeal = ref.watch(favoritesMeal);
+    final favoriteMeal = ref.watch(favoritesMealProvider);
 
     final availableMeals = meals.where((meal) {
       if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
@@ -109,13 +100,11 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 
     Widget activePage = CategoriesScreen(
       availableMeals: availableMeals,
-      onToggleFavorite: _toogleMealFavoriteStatus,
     );
     var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
       activePage = MealsScreen(
-        onToogleFavorites: _toogleMealFavoriteStatus,
         meals: favoriteMeal,
       );
       activePageTitle = 'Favorites';

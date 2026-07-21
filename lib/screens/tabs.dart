@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:resturang_app/provider/filters_provider.dart';
 import 'package:resturang_app/models/meal.dart';
 import 'package:resturang_app/screens/categories.dart';
 import 'package:resturang_app/screens/filters.dart';
@@ -61,45 +61,22 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     Navigator.of(context).pop();
 
     if (identifier == 'filter') {
-      final result = await Navigator.of(context).push<Map<Filter, bool>>(
+      await Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(
-          builder: (ctxt) => FilterScreen(currentFilters: _selectedFilters),
+          builder: (ctxt) => const FilterScreen(),
         ),
       );
-
-      setState(() {
-        _selectedFilters = result ?? kInitialFilters;
-      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final meals = ref.watch(mealsProvider);
+    final activeFilters = ref.watch(filterProvider);
     final favoriteMeal = ref.watch(favoritesMealProvider);
 
-    final availableMeals = meals.where((meal) {
-      if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
-        return false;
-      }
-
-      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
-        return false;
-      }
-
-      if (_selectedFilters[Filter.vegan]! && !meal.isVegetarian) {
-        return false;
-      }
-
-      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) {
-        return false;
-      }
-
-      return true;
-    }).toList();
-
     Widget activePage = CategoriesScreen(
-      availableMeals: availableMeals,
+      availableMeals: ref.watch(filterdMealsProvider),
     );
     var activePageTitle = 'Categories';
 
